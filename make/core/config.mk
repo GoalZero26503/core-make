@@ -230,30 +230,34 @@ CY_CONFIG_CYUSBDEV_TIMESTAMP=$(CY_CONFIG_CYUSBDEV_OUTPUT)/cycfg_usbdev.timestamp
 CY_CONFIG_MTBEZPD_TIMESTAMP=$(CY_CONFIG_MTBEZPD_OUTPUT)/mtbcfg_ezpd.timestamp
 CY_CONFIG_MTBLIN_TIMESTAMP=$(CY_CONFIG_MTBLIN_OUTPUT)/mtbcfg_lin.timestamp
 
+# Needed to comment out this section in order to not run Device Configurator every build.
+
 # If design.modus's timestamp is up-to-date run device-configurator with --skip-build to check that
 # the device in the design.modus file match the device in makefile
-check_device: | $(CY_CONFIG_MODUS_TIMESTAMP)
-ifneq ($(notdir $(CY_TOOLS_DIR)),tools_2.0)
-ifneq ($(notdir $(CY_TOOLS_DIR)),tools_2.1)
-ifneq ($(notdir $(CY_TOOLS_DIR)),tools_2.2)
-ifneq ($(CY_CONFIG_MODUS_FILE),)
-	$(CY_NOISE)$(CY_CONFIG_MODUS_RUN_CHECK_DEVICE) $(CY_CONFIG_MODUS_EXEC) $(CY_CONFIG_MODUS_EXEC_FLAGS)
-endif
-endif
-endif
-endif
+# check_device: | $(CY_CONFIG_MODUS_TIMESTAMP)
+# ifneq ($(notdir $(CY_TOOLS_DIR)),tools_2.0)
+# ifneq ($(notdir $(CY_TOOLS_DIR)),tools_2.1)
+# ifneq ($(notdir $(CY_TOOLS_DIR)),tools_2.2)
+# ifneq ($(CY_CONFIG_MODUS_FILE),)
+# 	$(CY_NOISE)$(CY_CONFIG_MODUS_RUN_CHECK_DEVICE) $(CY_CONFIG_MODUS_EXEC) $(CY_CONFIG_MODUS_EXEC_FLAGS)
+# endif
+# endif
+# endif
+# endif
 
 gen_config: $(CY_CONFIG_MODUS_TIMESTAMP) $(CY_CONFIG_CYBT_TIMESTAMP) $(CY_CONFIG_CYUSBDEV_TIMESTAMP)\
 	$(CY_CONFIG_MTBEZPD_TIMESTAMP) $(CY_CONFIG_MTBLIN_TIMESTAMP) check_device
 
-$(CY_CONFIG_MODUS_TIMESTAMP): $(CY_CONFIG_MODUS_FILE) $(CY_TARGET_MAKEFILE)
-ifneq ($(CY_CONFIG_MODUS_FILE),)
-	$(info )
-	$(info Running device-configurator to update stale files...)
-	$(CY_NOISE)$(CY_CONFIG_MODUS_EXEC) $(CY_CONFIG_MODUS_EXEC_FLAGS)
-	$(CY_NOISE)echo "-> Generated device configuration file(s) in $(CY_CONFIG_MODUS_OUTPUT)"
-	$(eval CY_CONFIG_MODUS_RUN_CHECK_DEVICE=true)
-endif
+# Needed to comment out this section in order to not run Device Configurator every build.
+
+# $(CY_CONFIG_MODUS_TIMESTAMP): $(CY_CONFIG_MODUS_FILE) $(CY_TARGET_MAKEFILE)
+# ifneq ($(CY_CONFIG_MODUS_FILE),)
+# 	$(info )
+# 	$(info Running device-configurator to update stale files...)
+# 	$(CY_NOISE)$(CY_CONFIG_MODUS_EXEC) $(CY_CONFIG_MODUS_EXEC_FLAGS)
+# 	$(CY_NOISE)echo "-> Generated device configuration file(s) in $(CY_CONFIG_MODUS_OUTPUT)"
+# 	$(eval CY_CONFIG_MODUS_RUN_CHECK_DEVICE=true)
+# endif
 
 $(CY_CONFIG_CYBT_TIMESTAMP): $(CY_CONFIG_CYBT_FILE)
 ifneq ($(CY_CONFIG_CYBT_FILE),)
